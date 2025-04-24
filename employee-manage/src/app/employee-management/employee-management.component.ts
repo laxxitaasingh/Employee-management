@@ -1,10 +1,39 @@
-import { Component } from '@angular/core';
+// employee-management.component.ts
+import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-employee-management',
   templateUrl: './employee-management.component.html',
-  styleUrl: './employee-management.component.css'
+  styleUrls: ['./employee-management.component.css']
 })
-export class EmployeeManagementComponent {
+export class EmployeeManagementComponent implements OnInit {
+  employees: any[] = [];
 
+  constructor() {}
+
+  ngOnInit(): void {
+    this.loadEmployees();
+  }
+
+  loadEmployees() {
+
+
+  }
+
+  openAddDialog() {
+   
+  }
+
+  openEditDialog(employee: any) {
+  
+  }
+
+  openDetailDialog(employee: any) {
+   
+  }
+
+  openDeleteDialog(employee: any) {
+   
+  }
 }

@@ -1,27 +1,27 @@
 
 <div class="employee-management">
     <h2>Employee Management</h2>
-    <button mat-flat-button color="primary" (click)="()">Add Employee</button>
+    <button mat-flat-button color="primary" (click)="openAddDialog()">Add Employee</button>
   
     <mat-card class="employee-card" *ngFor="let emp of employees">
       <div class="employee-info">
-        <img [src]="emp.avatar_url">
+        <img [src]="emp.avatar_url" alt="Avatar" width="60" height="60" class="avatar">
         <div class="details">
           <h3>{{ emp.name }}</h3>
-          <p> {{ emp.company_name }}</p>
-          <p>{{ emp.email }}</p>
-          <p> {{ emp.contact_no }}</p>
-          <p> {{ emp.designation }}</p>
+          <p><strong>Company:</strong> {{ emp.company_name }}</p>
+          <p><strong>Email:</strong> {{ emp.email }}</p>
+          <p><strong>Contact:</strong> {{ emp.contact_no }}</p>
+          <p><strong>Designation:</strong> {{ emp.designation }}</p>
         </div>
       </div>
       <div class="actions">
-        <button  (click)="">View</button>
-        <button  (click)="">Edit</button>
-        <button  (click)="">Delete</button>
+        <button  color="accent" (click)="openDetailDialog(emp)">View</button>
+        <button  color="primary" (click)="openEditDialog(emp)">Edit</button>
+        <button  color="warn" (click)="openDeleteDialog(emp)">Delete</button>
       </div>
     </mat-card>
 
 
-    
+
   </div>
   
