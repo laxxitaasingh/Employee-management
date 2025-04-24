@@ -1,1 +1,27 @@
-<p>employee-management works!</p>
+
+<div class="employee-management">
+    <h2>Employee Management</h2>
+    <button mat-flat-button color="primary" (click)="()">Add Employee</button>
+  
+    <mat-card class="employee-card" *ngFor="let emp of employees">
+      <div class="employee-info">
+        <img [src]="emp.avatar_url">
+        <div class="details">
+          <h3>{{ emp.name }}</h3>
+          <p> {{ emp.company_name }}</p>
+          <p>{{ emp.email }}</p>
+          <p> {{ emp.contact_no }}</p>
+          <p> {{ emp.designation }}</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button  (click)="">View</button>
+        <button  (click)="">Edit</button>
+        <button  (click)="">Delete</button>
+      </div>
+    </mat-card>
+
+
+    
+  </div>
+  
