@@ -1,5 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
+import { EmployeeFormDialogComponent } from '../employee-form-dialog/employee-form-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -10,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 export class EmployeeManagementComponent implements OnInit {
   employees: any[] = [];
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.loadEmployees();
@@ -22,7 +24,11 @@ export class EmployeeManagementComponent implements OnInit {
   }
   //Open dialog to add employees
   openAddDialog() {
-   
+    const dialogRef = this.dialog.open(EmployeeFormDialogComponent, {
+      data: { mode: 'add' },
+      width: '400px'
+    });
+    dialogRef.afterClosed().subscribe(() => this.loadEmployees());
   }
  //Open dialog to edit employees
   openEditDialog(employee: any) {
