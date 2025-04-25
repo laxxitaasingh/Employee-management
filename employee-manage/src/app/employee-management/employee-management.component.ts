@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmployeeFormDialogComponent } from '../employee-form-dialog/employee-form-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeDetailDialogComponent } from '../employee-detail-dialog/employee-detail-dialog.component';
+import { EmployeeService } from '../service/employee.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { EmployeeDetailDialogComponent } from '../employee-detail-dialog/employe
 export class EmployeeManagementComponent implements OnInit {
   employees: any[] = [];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog,private employeeService: EmployeeService,) {}
 
   ngOnInit(): void {
     this.loadEmployees();
@@ -21,7 +22,7 @@ export class EmployeeManagementComponent implements OnInit {
   //gets you all the employees
   loadEmployees() {
 
-
+    this.employees = this.employeeService.getEmployees();
   }
   //Open dialog to add employees
   openAddDialog() {
