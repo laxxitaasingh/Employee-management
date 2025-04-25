@@ -20,6 +20,7 @@ export class EmployeeFormDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.mode = data.mode;
+    //formgroup for data
     this.employeeForm = this.fb.group({
       name: ['', Validators.required],
       company_name: ['', Validators.required],
@@ -29,6 +30,7 @@ export class EmployeeFormDialogComponent {
       avatar_url: ['']
     });
 
+    //check if it is update mode
     if (this.mode === 'edit') {
       this.employeeForm.patchValue(data.employee);
     }
@@ -36,7 +38,7 @@ export class EmployeeFormDialogComponent {
 
   onSubmit() {
     const formValue = this.employeeForm.value;
-
+    //check if it is add mode
     if (this.mode === 'add') {
       formValue.avatar_url = `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random().toString(36).substring(7)}`;
       this.employeeService.addEmployee(formValue);
