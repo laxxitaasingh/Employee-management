@@ -1,16 +1,21 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
 
-  constructor() { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
   private localStorageKey = 'employees';
 
 //get list of existing employess from local storage
   getEmployees(): any[] {
-    return JSON.parse(localStorage.getItem(this.localStorageKey) || '[]');
+    if (isPlatformBrowser(this.platformId)) {
+      const data = localStorage.getItem('employees');
+      return JSON.parse(data || '[]');
+    }
+    return [];
   }
 //save employee in local storage
   saveEmployees(employees: any[]): void {
