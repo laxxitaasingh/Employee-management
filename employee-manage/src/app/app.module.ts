@@ -5,15 +5,31 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EmployeeManagementComponent } from './employee-management/employee-management.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { MatCardModule } from '@angular/material/card';
-@NgModule({
+
+import { EmployeeDetailDialogComponent } from './employee-detail-dialog/employee-detail-dialog.component';
+import { EmployeeFormDialogComponent } from './employee-form-dialog/employee-form-dialog.component';
+
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';@NgModule({
   declarations: [
     AppComponent,
-    EmployeeManagementComponent
+    EmployeeManagementComponent,
+    EmployeeDetailDialogComponent,
+    EmployeeFormDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule, 
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatCardModule
   ],
   providers: [
