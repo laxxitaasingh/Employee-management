@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeFormDialogComponent } from '../employee-form-dialog/employee-form-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { EmployeeDetailDialogComponent } from '../employee-detail-dialog/employee-detail-dialog.component';
 
 
 @Component({
@@ -36,7 +37,10 @@ export class EmployeeManagementComponent implements OnInit {
   }
  //Open dialog to view employees details
   openDetailDialog(employee: any) {
-   
+    this.dialog.open(EmployeeDetailDialogComponent, {
+      data: { employee },
+      width: '400px'
+    });
   }
  //Open dialog to delete employees
   openDeleteDialog(employee: any) {
