@@ -14,6 +14,12 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 })
 export class EmployeeManagementComponent implements OnInit {
   employees: any[] = [];
+  pagedEmployees: any[] = [];
+
+  currentPage = 1;
+  pageSize = 5;
+  totalPages = 1;
+
 
   constructor(private dialog: MatDialog,private employeeService: EmployeeService,) {}
 
@@ -21,10 +27,37 @@ export class EmployeeManagementComponent implements OnInit {
     this.loadEmployees();
   }
   //gets you all the employees
-  loadEmployees() {
+  // loadEmployees() {
 
+  //   this.employees = this.employeeService.getEmployees();
+  // }
+
+  loadEmployees(): void {
     this.employees = this.employeeService.getEmployees();
+    this.totalPages = Math.ceil(this.employees.length / this.pageSize);
+    this.setPagedEmployees();
   }
+
+  setPagedEmployees(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.pagedEmployees = this.employees.slice(startIndex, endIndex);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.setPagedEmployees();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.setPagedEmployees();
+    }
+  }
+
   //Open dialog to add employees
   openAddDialog() {
     const dialogRef = this.dialog.open(EmployeeFormDialogComponent, {

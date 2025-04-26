@@ -1,9 +1,13 @@
 
-<div class="employee-management">
+   <div class="employee-management">
     <h2>Employee Management</h2>
     <button mat-flat-button color="primary" (click)="openAddDialog()">Add Employee</button>
   
-    <mat-card class="employee-card" *ngFor="let emp of employees">
+    <div *ngIf="pagedEmployees.length === 0">
+      <p>No employees found.</p>
+    </div>
+  
+    <mat-card class="employee-card" *ngFor="let emp of pagedEmployees">
       <div class="employee-info">
         <img [src]="emp.avatar_url" alt="Avatar" width="60" height="60" class="avatar">
         <div class="details">
@@ -15,13 +19,16 @@
         </div>
       </div>
       <div class="actions">
-        <button  color="accent" (click)="openDetailDialog(emp)">View</button>
-        <button  color="primary" (click)="openEditDialog(emp)">Edit</button>
-        <button  color="warn" (click)="openDeleteDialog(emp)">Delete</button>
+        <button  (click)="openDetailDialog(emp)">View</button>
+        <button  (click)="openEditDialog(emp)">Edit</button>
+        <button  (click)="openDeleteDialog(emp)">Delete</button>
       </div>
     </mat-card>
-
-
-
-  </div>
   
+    <div class="pagination-controls" *ngIf="totalPages > 1">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button  (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  </div>
+   

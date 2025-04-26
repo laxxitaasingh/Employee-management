@@ -63,4 +63,6 @@
     margin-top: 12px;
     flex-wrap: wrap;
   }
-  
+  .pagination-controls{
+    margin-top: 10px;
+  }
