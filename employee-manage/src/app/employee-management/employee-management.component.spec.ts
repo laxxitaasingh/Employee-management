@@ -79,6 +79,51 @@ describe('EmployeeManagementComponent', () => {
     expect(component.pagedEmployees.length).toBeLessThanOrEqual(component.pageSize);
   });
 
+  it('should filter employees based on search query', () => {
+    component.searchQuery = 'John';
+    component.filterEmployees();
+    expect(component.filteredEmployees.length).toBe(1);
+    expect(component.filteredEmployees[0].name).toBe('John Doe');
+
+    component.searchQuery = 'Designer';
+    component.filterEmployees();
+    expect(component.filteredEmployees.length).toBe(1);
+    expect(component.filteredEmployees[0].designation).toBe('Designer');
+
+    component.searchQuery = '';
+    component.filterEmployees();
+    expect(component.filteredEmployees).toEqual(mockEmployees);
+  });
+
+  it('should handle pagination correctly', () => {
+    // Test with more employees to demonstrate pagination
+    const manyEmployees = Array(12).fill(null).map((_, i) => ({
+      id: i + 1,
+      name: `Employee ${i + 1}`,
+      email: `emp${i + 1}@example.com`,
+      designation: 'Developer',
+      company_name: 'Company',
+      contact_no: '1234567890',
+      avatar_url: 'https://example.com/avatar.jpg'
+    }));
+
+    employeeService.getEmployees.and.returnValue(manyEmployees);
+    component.loadEmployees();
+
+    expect(component.totalPages).toBe(3); // 12 employees / 5 per page = 3 pages
+    expect(component.pagedEmployees.length).toBe(5); // First page should have 5 items
+
+    component.nextPage();
+    expect(component.currentPage).toBe(2);
+    expect(component.pagedEmployees.length).toBe(5);
+
+    component.nextPage();
+    expect(component.currentPage).toBe(3);
+    expect(component.pagedEmployees.length).toBe(2); // Last page should have 2 items
+
+    component.prevPage();
+    expect(component.currentPage).toBe(2);
+  });
 
   it('should open add employee dialog', () => {
     const dialogRef = { afterClosed: () => of(true) };
@@ -160,6 +205,12 @@ describe('EmployeeManagementComponent', () => {
     expect(employeeService.deleteEmployee).not.toHaveBeenCalled();
   });
 
+  it('should have search input field', () => {
+    const compiled = fixture.nativeElement;
+    const searchInput = compiled.querySelector('input[matInput]');
+    expect(searchInput).toBeTruthy();
+    expect(searchInput.placeholder).toContain('Search by name, email, or designation');
+  });
 
   it('should display employee cards', () => {
     const compiled = fixture.nativeElement;
@@ -167,5 +218,23 @@ describe('EmployeeManagementComponent', () => {
     expect(cards.length).toBe(component.pagedEmployees.length);
   });
 
+  it('should have pagination controls when there are multiple pages', () => {
+    const manyEmployees = Array(12).fill(null).map((_, i) => ({
+      id: i + 1,
+      name: `Employee ${i + 1}`,
+      email: `emp${i + 1}@example.com`,
+      designation: 'Developer',
+      company_name: 'Company',
+      contact_no: '1234567890',
+      avatar_url: 'https://example.com/avatar.jpg'
+    }));
 
+    employeeService.getEmployees.and.returnValue(manyEmployees);
+    component.loadEmployees();
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement;
+    const paginationControls = compiled.querySelector('.pagination-controls');
+    expect(paginationControls).toBeTruthy();
+  });
 });
