@@ -4,6 +4,7 @@ import { EmployeeFormDialogComponent } from '../employee-form-dialog/employee-fo
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeDetailDialogComponent } from '../employee-detail-dialog/employee-detail-dialog.component';
 import { EmployeeService } from '../service/employee.service';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 
 @Component({
@@ -34,7 +35,11 @@ export class EmployeeManagementComponent implements OnInit {
   }
  //Open dialog to edit employees
   openEditDialog(employee: any) {
-  
+    const dialogRef = this.dialog.open(EmployeeFormDialogComponent, {
+      data: { mode: 'edit', employee },
+      width: '400px'
+    });
+    dialogRef.afterClosed().subscribe(() => this.loadEmployees());
   }
  //Open dialog to view employees details
   openDetailDialog(employee: any) {
