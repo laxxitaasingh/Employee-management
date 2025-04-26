@@ -45,6 +45,15 @@ export class EmployeeManagementComponent implements OnInit {
   }
  //Open dialog to delete employees
   openDeleteDialog(employee: any) {
-   
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { message: `Are you sure you want to delete ${employee.name}?` },
+      width: '300px'
+    });
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result === true) {
+        this.employeeService.deleteEmployee(employee.id);
+        this.loadEmployees();
+      }
+    });
   }
 }
