@@ -14,12 +14,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';@NgModule({
+import { MatCardModule } from '@angular/material/card';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';@NgModule({
   declarations: [
     AppComponent,
     EmployeeManagementComponent,
     EmployeeDetailDialogComponent,
-    EmployeeFormDialogComponent
+    EmployeeFormDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
