@@ -3,30 +3,58 @@
 
 <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
-    <mat-form-field appearance="fill" >
+    
+    <!-- Name -->
+    <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" required>
+      <mat-error *ngIf="employeeForm.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" >
+    <!-- Company Name -->
+    <mat-form-field appearance="fill">
       <mat-label>Company Name</mat-label>
       <input matInput formControlName="company_name" required>
+      <mat-error *ngIf="employeeForm.get('company_name')?.hasError('required')">
+        Company Name is required
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" >
+    <!-- Email -->
+    <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" required type="email">
+      <mat-error *ngIf="employeeForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="employeeForm.get('email')?.hasError('email')">
+        Enter a valid email address
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" >
+    <!-- Contact No -->
+    <mat-form-field appearance="fill">
       <mat-label>Contact No.</mat-label>
       <input matInput formControlName="contact_no" required>
+      <mat-error *ngIf="employeeForm.get('contact_no')?.hasError('required')">
+        Contact number is required
+      </mat-error>
+      <mat-error *ngIf="employeeForm.get('contact_no')?.hasError('invalidPhone')">
+        Contact number must be 10 digits
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" >
+    <!-- Designation -->
+    <mat-form-field appearance="fill">
       <mat-label>Designation</mat-label>
       <input matInput formControlName="designation" required>
+      <mat-error *ngIf="employeeForm.get('designation')?.hasError('required')">
+        Designation is required
+      </mat-error>
     </mat-form-field>
+
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
