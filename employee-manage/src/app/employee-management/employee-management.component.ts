@@ -1,11 +1,10 @@
-
 import { Component, OnInit } from '@angular/core';
 import { EmployeeFormDialogComponent } from '../employee-form-dialog/employee-form-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeDetailDialogComponent } from '../employee-detail-dialog/employee-detail-dialog.component';
 import { EmployeeService } from '../service/employee.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-employee-management',
@@ -15,6 +14,8 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 export class EmployeeManagementComponent implements OnInit {
   employees: any[] = [];
   pagedEmployees: any[] = [];
+  filteredEmployees: any[] = [];
+  searchQuery: string = '';
 
   currentPage = 1;
   pageSize = 5;
@@ -34,14 +35,31 @@ export class EmployeeManagementComponent implements OnInit {
 
   loadEmployees(): void {
     this.employees = this.employeeService.getEmployees();
-    this.totalPages = Math.ceil(this.employees.length / this.pageSize);
+    this.filteredEmployees = [...this.employees];
+    this.totalPages = Math.ceil(this.filteredEmployees.length / this.pageSize);
+    this.setPagedEmployees();
+  }
+
+  filterEmployees(): void {
+    if (!this.searchQuery) {
+      this.filteredEmployees = [...this.employees];
+    } else {
+      const query = this.searchQuery.toLowerCase();
+      this.filteredEmployees = this.employees.filter(emp => 
+        emp.name.toLowerCase().includes(query) ||
+        emp.email.toLowerCase().includes(query) ||
+        emp.designation.toLowerCase().includes(query)
+      );
+    }
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.filteredEmployees.length / this.pageSize);
     this.setPagedEmployees();
   }
 
   setPagedEmployees(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.pagedEmployees = this.employees.slice(startIndex, endIndex);
+    this.pagedEmployees = this.filteredEmployees.slice(startIndex, endIndex);
   }
 
   nextPage(): void {

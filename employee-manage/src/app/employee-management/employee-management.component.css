@@ -66,3 +66,13 @@
   .pagination-controls{
     margin-top: 10px;
   }
+
+  .search-container {
+    margin: 20px 0;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .search-container mat-form-field {
+    width: 100%;
+  }

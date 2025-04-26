@@ -1,7 +1,13 @@
-
    <div class="employee-management">
     <h2>Employee Management</h2>
     <button mat-flat-button color="primary" (click)="openAddDialog()">Add Employee</button>
+    
+    <div class="search-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Search Employees</mat-label>
+        <input matInput [(ngModel)]="searchQuery" (ngModelChange)="filterEmployees()" placeholder="Search by name, email, or designation">
+      </mat-form-field>
+    </div>
   
     <div *ngIf="pagedEmployees.length === 0">
       <p>No employees found.</p>
