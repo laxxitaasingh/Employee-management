@@ -1,8 +1,9 @@
 
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EmployeeService } from '../../app/service/employee.service';
+import { phoneNumberValidator } from '../validators/phoneNumber.validator';
 
 @Component({
   selector: 'app-employee-form-dialog',
@@ -25,7 +26,7 @@ export class EmployeeFormDialogComponent {
       name: ['', Validators.required],
       company_name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      contact_no: ['', Validators.required],
+      contact_no: ['', [Validators.required,phoneNumberValidator]],
       designation: ['', Validators.required],
       avatar_url: ['']
     });
