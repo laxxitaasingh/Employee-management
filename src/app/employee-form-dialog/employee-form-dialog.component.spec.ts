@@ -27,7 +27,7 @@ describe('EmployeeFormDialogComponent', () => {
 
   beforeEach(async () => {
     const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['close']);
-    const employeeServiceSpy = jasmine.createSpyObj('EmployeeService', ['addEmployee', 'updateEmployee']);
+    const employeeServiceSpy = jasmine.createSpyObj('EmployeeService', ['addEmployee', 'updateEmployee', 'getEmployees']);
 
     await TestBed.configureTestingModule({
       declarations: [EmployeeFormDialogComponent],
@@ -100,21 +100,6 @@ describe('EmployeeFormDialogComponent', () => {
     expect(component.employeeForm.get('contact_no')?.value).toBe(mockEmployee.contact_no);
   });
 
-  it('should call addEmployee and close dialog when submitting in add mode', () => {
-    const formValue = {
-      name: 'New Employee',
-      email: 'new@example.com',
-      designation: 'Tester',
-      company_name: 'Test Corp',
-      contact_no: '9876543210'
-    };
-
-    component.employeeForm.patchValue(formValue);
-    component.onSubmit();
-
-    expect(employeeService.addEmployee).toHaveBeenCalled();
-    expect(dialogRef.close).toHaveBeenCalled();
-  });
 
   it('should call updateEmployee and close dialog when submitting in edit mode', () => {
     // Create a new dialog reference for this test
@@ -253,5 +238,49 @@ describe('EmployeeFormDialogComponent', () => {
 
     const editModeButtons = fixture.nativeElement.querySelectorAll('button');
     expect(editModeButtons[1].textContent).toContain('Update');
+  });
+
+  it('should not add employee and should alert if duplicate exists', () => {
+    spyOn(window, 'alert');
+    // Mock getEmployees to return a duplicate
+    employeeService.getEmployees = jasmine.createSpy().and.returnValue([
+      {
+        name: 'Duplicate Name',
+        email: 'duplicate@example.com',
+        designation: 'Tester'
+      }
+    ]);
+    component.employeeForm.patchValue({
+      name: 'Duplicate Name',
+      email: 'duplicate@example.com',
+      designation: 'Tester',
+      company_name: 'Test Corp',
+      contact_no: '9876543210'
+    });
+    component.onSubmit();
+    expect(employeeService.addEmployee).not.toHaveBeenCalled();
+    expect(dialogRef.close).not.toHaveBeenCalled();
+    expect(window.alert).toHaveBeenCalledWith('An employee with the same name, email, and designation already exists.');
+  });
+
+  it('should add employee if no duplicate exists', () => {
+    // Mock getEmployees to return no duplicates
+    employeeService.getEmployees = jasmine.createSpy().and.returnValue([
+      {
+        name: 'Someone Else',
+        email: 'someone@example.com',
+        designation: 'Developer'
+      }
+    ]);
+    component.employeeForm.patchValue({
+      name: 'Unique Name',
+      email: 'unique@example.com',
+      designation: 'Tester',
+      company_name: 'Test Corp',
+      contact_no: '9876543210'
+    });
+    component.onSubmit();
+    expect(employeeService.addEmployee).toHaveBeenCalled();
+    expect(dialogRef.close).toHaveBeenCalled();
   });
 });

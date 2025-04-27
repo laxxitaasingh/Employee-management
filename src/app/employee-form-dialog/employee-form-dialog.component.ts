@@ -47,7 +47,7 @@ export class EmployeeFormDialogComponent {
         emp.designation.trim().toLowerCase() === formValue.designation.trim().toLowerCase()
       );
       if (duplicate) {
-        alert('An employee with the same Name, Email, and Designation already exists.');
+        alert('An employee with the same name, email, and designation already exists.');
         return;
       }
       formValue.avatar_url = `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random().toString(36).substring(7)}`;
