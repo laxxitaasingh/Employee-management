@@ -1,4 +1,3 @@
-
 import { Component, Inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -39,8 +38,18 @@ export class EmployeeFormDialogComponent {
 
   onSubmit() {
     const formValue = this.employeeForm.value;
-    //check if it is add mode
     if (this.mode === 'add') {
+      // Duplicate check
+      const employees = this.employeeService.getEmployees();
+      const duplicate = employees.some(emp =>
+        emp.name.trim().toLowerCase() === formValue.name.trim().toLowerCase() &&
+        emp.email.trim().toLowerCase() === formValue.email.trim().toLowerCase() &&
+        emp.designation.trim().toLowerCase() === formValue.designation.trim().toLowerCase()
+      );
+      if (duplicate) {
+        alert('An employee with the same Name, Email, and Designation already exists.');
+        return;
+      }
       formValue.avatar_url = `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random().toString(36).substring(7)}`;
       this.employeeService.addEmployee(formValue);
       this.dialogRef.close(); 
